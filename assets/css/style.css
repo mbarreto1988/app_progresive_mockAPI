@@ -1,0 +1,255 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, rgb(242, 151, 224) 0%, rgb(215, 129, 129) 54%, rgb(242, 151, 224) 94%);
+}
+
+.header {
+    background-color: rgb(50, 22, 22);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    padding: 20px 0;
+    text-align: center;
+    color: white;
+    z-index: 1000;
+}
+
+.title-header{
+    color: black;
+    font: oblique bold 120% cursive;
+    font-size: 18px;
+    margin-top: 0;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+}
+
+.card{
+    flex: 1 1 calc(25% - 5px);
+    max-width: calc(25% - 5px);
+    height: 80%;
+    text-align: center;
+    margin: 10px;
+}
+
+.card-img{
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 50px 3px 10px 5px;
+}
+
+.card-data{
+    margin: 10px;
+    border: 1px solid rgb(98, 98, 243);
+    border-radius: 50px 5px 50px 5px;
+    background: linear-gradient(90deg, rgb(222, 102, 188) 0%, rgb(202, 141, 242) 94%);
+}
+
+.card-data:hover{
+    transition: 0.3s;
+    box-shadow: 0 4px 20px rgb(0, 0, 0);
+}
+
+.img-modal {
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 4/3;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
+
+.cardDetail{
+    border: none;
+    color: #fff;
+    background-image: linear-gradient(30deg, #0400ff, #4ce3f7);
+    border-radius: 20px;
+    background-size: 100% auto;
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 0.6em 1.5em;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.cardDetail:hover{
+    background-position: right center;
+    background-size: 200% auto;
+    animation: butonHover 1.5s infinite;
+}
+
+@keyframes butonHover {
+    0% {
+     box-shadow: 0 0 0 0 #05bada66;
+    }
+   
+    70% {
+     box-shadow: 0 0 0 10px rgb(218 103 68 / 0%);
+    }
+   
+    100% {
+     box-shadow: 0 0 0 0 rgb(218 103 68 / 0%);
+    }
+}
+
+.card-title{
+    font-size: 20px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    height: auto;
+}
+
+.camera-img{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+
+.camera-img img{
+    background: linear-gradient(90deg, #00f, #f0f, #ff0);
+    padding: 3px;
+    border-radius: 50%;
+    width: 5%;
+}
+
+.camera-img img:hover{
+    transition: 0.5s;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+
+dialog {
+    width: 400px;
+    height: 500px;
+    border-radius: 10px;
+    border: 2px solid rgb(0, 26, 255);
+    background-color: #8dbaea;
+    transition: 1s;
+
+    & div {
+        margin-top: 20px;
+        text-align: center;
+    }
+}
+
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.452);
+}
+
+.close-button, .close-camera {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.close-button:hover {
+    color: red;
+}
+
+.img-preview{
+    max-width: 100%;
+    border: 1px solid #ddd; 
+    border-radius: 5px; 
+    margin-bottom: 10px; 
+}
+
+.btn-confirm, .btn-cancel {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+
+.btn-confirm{
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-cancel{
+    background-color: #6c757d;
+    color: white;
+}
+
+.footer {
+    background-color: black;
+    color: wheat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+}
+
+.footer-parrafo {
+    text-align: center;
+    margin: 0;
+}
+
+
+/* ------------------------------------------------------------------------- */
+
+@media (max-width: 900px) {
+    .cardDetail {
+        font-size: 0.9rem;
+        padding: 0.5em 1.2em;
+    }
+}
+
+@media (max-width: 700px) {
+    .cardDetail {
+        font-size: 0.8rem;
+        padding: 0.4em 1em;
+        border-radius: 15px;
+    }
+
+    .header {
+        height: 25px;
+    }
+
+    .title-header{
+        font-size: 15px;
+    }
+
+    .card {
+        flex: 1 1 calc(33.33% - 20px);
+        max-width: calc(33.33% - 20px);
+    }
+
+}
+
+@media (max-width: 350px) {
+    .cardDetail {
+        font-size: 0.8rem;
+        padding: 0.4em 1em;
+        border-radius: 15px;
+    }
+
+    .card {
+        flex: 1 1 calc(50% - 20px);
+        max-width: calc(50% - 20px);
+    }
+
+    .extra-text{
+        display: none;
+    }
+}
