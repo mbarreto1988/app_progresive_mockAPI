@@ -3,19 +3,18 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Mi Instagram</title>
+        <title>Mi Mini IG</title>
+        <link rel="manifest" href="./manifest.json">
         <link rel="shortcut icon" href="./assets/img/instagram_logo_icon.jpg" type="image/x-icon">
         <link rel="stylesheet" href="./assets/css/style.css">
         <script src="https://kit.fontawesome.com/a214269803.js" crossorigin="anonymous"></script>
         <script defer src="./assets/js/main.js"></script>
         <script defer src="./assets/js/post.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
     <body>
         <header>
-            <div class="header">
-                Un Mini Instagram de Bolsillo
-                <span class="extra-text">, Para que compartas todos tus momentos</span>
-            </div>
+            <div class="header"> Un Mini Instagram de Bolsillo <span class="extra-text">, Para que compartas todos tus momentos</span> </div>
         </header>
         <div id="reel" class="container"> </div>
         <a href="#" class="camera-img" id="camara-img"> <img src="./assets/img/camera.png" alt="camera"> </a>
@@ -28,11 +27,14 @@
             <div id="showCamera"> 
                 <button class="close-camera" aria-label="Close">&times;</button>
                 <img src="./assets/img/upload-icon.jpg" alt="vista previa" id="preview" class="img-preview">        
-                <input type="file" id="input-file" accept="image/*" capture="camera" required>
-                <input type="text" id="titulo" placeholder="Ingrese un titulo para su foto" required>
-                <br>
+                <div class="upload-box">
+                    <label for="input-file" class="upload-label"> <i class="fas fa-cloud-upload-alt"></i> Subir Foto </label>
+                    <input type="file" id="input-file" accept="image/*, .pdf" capture="camera" class="upload-input" required>
+                </div>                
+                <input type="text" id="titulo" placeholder="Ingrese un titulo para su foto" class="styled-input" required>
                 <button id="btn-confirmar" class="btn-confirm">Confirmar</button>
                 <button id="btn-cancelar" class="btn-cancel" onclick="window.location.href='index.html'">Cancelar</button>
+                <p id="network-status" style="color: red; display: none;">Sin conexión a Internet</p>
             </div>
         </dialog>
 

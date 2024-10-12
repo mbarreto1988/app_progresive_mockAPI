@@ -1,6 +1,32 @@
 const entradaArchivo = document.getElementById('input-file');
 const vistaPrevia = document.getElementById('preview');
 const btnConfirmar = document.getElementById('btn-confirmar');
+const networkStatus = document.getElementById('network-status');
+
+
+class Alerts{
+    static publicationSuccessful(message){
+        Swal.fire({
+            icon: 'success',
+            title: '¡Tu foto se ha publicado con exito!',
+            text: message,
+            timer: 3000,
+            showConfirmButton: false
+        });
+    }
+}
+
+
+function verificarConectividad() {
+    if (navigator.onLine) {
+        btnConfirmar.disabled = false;
+        networkStatus.style.display = 'none';
+    } else {
+        btnConfirmar.disabled = true;
+        networkStatus.style.display = 'block';
+    }
+}
+// verificarConectividad();
 
 
 function comprimirImagen(archivo, maxWidth, maxHeight, callback) {
@@ -70,8 +96,11 @@ btnConfirmar.addEventListener('click', async () => {
             body: JSON.stringify(datos) 
         });
         if (respuesta.ok) {
-            alert('Foto publicada con éxito');
-            window.location.href = 'index.html'; 
+            dialogCamera.style.display = 'none';
+            Alerts.publicationSuccessful('Publicación Exitosa');
+            setTimeout(() => {
+                window.location.href = 'index.html'; 
+            }, 3000);
         } else {
             const errorText = await respuesta.text();
             alert(`Error al publicar la foto: ${errorText}`);
@@ -81,3 +110,8 @@ btnConfirmar.addEventListener('click', async () => {
         alert('Error al publicar la foto...');
     }
 });
+
+
+
+window.addEventListener('online', ()=> verificarConectividad());
+window.addEventListener('offline', ()=> verificarConectividad());

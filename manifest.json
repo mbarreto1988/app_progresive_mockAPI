@@ -1,0 +1,27 @@
+{
+    "name": "Mi Instagram",
+    "short_name": "Instagram",
+    "description": "Una mini red social para compartir tus fotos favoritas",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#007bff",
+    "icons": [
+      {
+        "src": "/assets/img/ig_icon_64.png",
+        "sizes": "64x64",
+        "type": "image/png"
+      },
+      {
+        "src": "/assets/img/ig_icon_128.png",
+        "sizes": "128x128",
+        "type": "image/png"
+      },
+      {
+        "src": "/assets/img/ig_icon_512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ]
+  }
+  
