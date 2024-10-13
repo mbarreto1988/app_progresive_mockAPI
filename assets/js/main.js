@@ -4,6 +4,7 @@ const dialogCardDetail = document.getElementById('dialogCardDetail');
 const showCardDetail = document.getElementById('showCardDetail');
 const dialogCamera = document.getElementById('dialogCamera');
 const closeButtonCamera = document.querySelector('.close-camera');
+const camara_img = document.getElementById('camara-img');
 
 
 async function mostrarImagenes() {
@@ -18,7 +19,6 @@ async function mostrarImagenes() {
             data.forEach(image => {
                 const card = document.createElement('div');
                 card.classList = 'card';
-                
                 card.innerHTML = `
                     <div class="card-data">
                         <img src="${image.url}" class="card-img" alt="${image.titulo}">
@@ -26,10 +26,9 @@ async function mostrarImagenes() {
                             <h5 class="card-title">${image.titulo}</h5>
                             <button class="button cardDetail">Detalles</button>
                             <br>
-                            
                         </div>
                     </div>
-                `;                
+                `;
                 const button = card.querySelector('.cardDetail');
                 button.addEventListener('click', () => {
                     showCardDetail.innerHTML = `
@@ -37,14 +36,18 @@ async function mostrarImagenes() {
                         <img src="${image.url}" alt="${image.titulo}" class="img-modal">
                         <h2>${image.titulo}</h2>
                         <p>Fecha: ${new Date(image.fecha).toLocaleString()}</p>
+                        <button id="btn-delete" class="btn-delete">Eliminar</button>
                     `;
                     dialogCardDetail.showModal();
-
                     const closeButton = document.querySelector('.close-button');
                     closeButton.addEventListener('click', () => {
                         dialogCardDetail.close();
                     });
-                });
+                    const btnDelete = document.getElementById('btn-delete');
+                    btnDelete.addEventListener('click', async () => {
+                        await eliminarImagen(image.id);                        
+                    });
+                });                
                 reel.appendChild(card);
             });
         }
@@ -55,17 +58,70 @@ async function mostrarImagenes() {
 }
 
 
-const camara_img = document.getElementById('camara-img');
+async function eliminarImagen(imageId) {
+    dialogCardDetail.close();
+    try {
+        const confirmacion = await Swal.fire({
+            title: '¿Estás seguro?',
+            text: 'No podrás revertir esta acción',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        });
+        if (confirmacion.isConfirmed) {
+            const response = await fetch(`${url_base}/${imageId}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Eliminado',
+                    text: 'La imagen ha sido eliminada con éxito.',
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+                setTimeout(() => {
+                    window.location.reload(); 
+                }, 3000);
+                dialogCardDetail.close();
+            } else {
+                const errorText = await response.text();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: `Error al eliminar la imagen: ${errorText}`,
+                    timer: 3000,
+                    showConfirmButton: false
+                });
+            }
+        } else {
+            Swal.fire({
+                icon: 'info',
+                title: 'Cancelado',
+                text: 'La imagen no fue eliminada',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        }
+    } catch (error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudo conectar con el servidor.',
+            timer: 3000,
+            showConfirmButton: false
+        });
+        console.error('Error al eliminar la imagen:', error);
+    }
+}
+
+
 camara_img.addEventListener('click', (event) => {
     event.preventDefault();
     dialogCamera.showModal();
 });
 
-
-closeButtonCamera.addEventListener('click', () => {
-    dialogCamera.close();
-});
-
-
+closeButtonCamera.addEventListener('click', () => dialogCamera.close());
 document.addEventListener('DOMContentLoaded', mostrarImagenes);
 

@@ -1,14 +1,22 @@
 const entradaArchivo = document.getElementById('input-file');
 const vistaPrevia = document.getElementById('preview');
+const video = document.getElementById('camera-preview');
+const btnCamera = document.getElementById('btn-camera');
+const btnCapture = document.getElementById('btn-capture');
 const btnConfirmar = document.getElementById('btn-confirmar');
 const networkStatus = document.getElementById('network-status');
+const datosIncompletos = document.getElementById('datos-incompletos')
 
 
-class Alerts{
-    static publicationSuccessful(message){
+let stream;
+let imageCapture;
+
+
+class Alerts {
+    static publicationSuccessful(message) {
         Swal.fire({
             icon: 'success',
-            title: '¡Tu foto se ha publicado con exito!',
+            title: '¡Tu foto se ha publicado con éxito!',
             text: message,
             timer: 3000,
             showConfirmButton: false
@@ -20,13 +28,45 @@ class Alerts{
 function verificarConectividad() {
     if (navigator.onLine) {
         btnConfirmar.disabled = false;
+        btnConfirmar.style.backgroundColor = '#007bff';
+        btnConfirmar.style.cursor = 'pointer';
         networkStatus.style.display = 'none';
     } else {
         btnConfirmar.disabled = true;
+        btnConfirmar.style.backgroundColor = 'gray';
+        btnConfirmar.style.cursor = 'no-drop';
         networkStatus.style.display = 'block';
     }
 }
-// verificarConectividad();
+
+
+async function activarCamara() {
+    try {
+        stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        video.srcObject = stream;
+        const track = stream.getVideoTracks()[0];
+        imageCapture = new ImageCapture(track);
+    } catch (error) {
+        console.error('Error al acceder a la cámara:', error);
+        alert('No se pudo acceder a la cámara.');
+    }
+}
+
+
+async function capturarFoto() {
+    try {
+        const photoBlob = await imageCapture.takePhoto();
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            vistaPrevia.src = reader.result;
+            video.srcObject = null;
+            stream.getTracks().forEach(track => track.stop());
+        };
+        reader.readAsDataURL(photoBlob);
+    } catch (error) {
+        console.error('Error al capturar la foto:', error);
+    }
+}
 
 
 function comprimirImagen(archivo, maxWidth, maxHeight, callback) {
@@ -52,54 +92,54 @@ function comprimirImagen(archivo, maxWidth, maxHeight, callback) {
             canvas.height = height;
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, width, height);
-            const dataUrl = canvas.toDataURL('image/jpeg', 0.7); // Nivel de compresión ajustable
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
             callback(dataUrl);
         };
     };
 }
 
 
-entradaArchivo.addEventListener('change', (evento) => {
+function manejarCambioArchivo(evento) {
     const archivo = evento.target.files[0];
     if (archivo) {
-      
-        if (archivo.size > 2000000) {
-            alert('La foto es muy grande, que no supere los 2MB.');
-            return;
-        }
         comprimirImagen(archivo, 800, 600, (dataUrl) => {
-            vistaPrevia.src = dataUrl; 
+            vistaPrevia.src = dataUrl;
         });
     }
-});
+}
 
 
-btnConfirmar.addEventListener('click', async () => {
+async function confirmarSubida() {
     const titulo = document.getElementById('titulo').value;
-    const imagenBase64 = vistaPrevia.src;
+    const imagenBase64 = vistaPrevia.src;    
     if (!titulo || !imagenBase64) {
-        alert('Por favor completa todos los campos.');
+        datosIncompletos.style.display = 'block';
         return;
-    }
+    }    
+    const base64Length = imagenBase64.length * (3 / 4) - 2;
+    const sizeInMB = base64Length / (1024 * 1024);    
+    if (sizeInMB > 2) {
+        alert('La imagen es muy grande (mayor a 2MB), intente con una más pequeña.');
+        return;
+    }    
     const datos = {
         titulo: titulo,
         url: imagenBase64,
         fecha: new Date().toISOString()
-    };
-    console.log('Datos a enviar:', datos); 
+    };    
     try {
         const respuesta = await fetch('https://6708314d8e86a8d9e42e50e1.mockapi.io/fotos', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(datos) 
-        });
+            body: JSON.stringify(datos)
+        });        
         if (respuesta.ok) {
-            dialogCamera.style.display = 'none';
+            document.getElementById('dialogCamera').style.display = 'none';
             Alerts.publicationSuccessful('Publicación Exitosa');
             setTimeout(() => {
-                window.location.href = 'index.html'; 
+                window.location.href = 'index.html';
             }, 3000);
         } else {
             const errorText = await respuesta.text();
@@ -109,9 +149,14 @@ btnConfirmar.addEventListener('click', async () => {
         console.error('Error al publicar la foto:', error);
         alert('Error al publicar la foto...');
     }
-});
+}
 
 
 
 window.addEventListener('online', ()=> verificarConectividad());
 window.addEventListener('offline', ()=> verificarConectividad());
+btnCamera.addEventListener('click', activarCamara);
+btnCapture.addEventListener('click', capturarFoto);
+btnConfirmar.addEventListener('click', confirmarSubida);
+entradaArchivo.addEventListener('change', manejarCambioArchivo);
+
