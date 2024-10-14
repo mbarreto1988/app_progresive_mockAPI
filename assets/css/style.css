@@ -322,6 +322,7 @@ dialog::backdrop {
 
     .styled-input {
         max-width: 200px;
+        font-size: 20px;
     }
 
     .camera-img img{
@@ -346,7 +347,8 @@ dialog::backdrop {
     }
 
     .styled-input {
-        max-width: 100px;
+        max-width: 170px;
+        font-size: 20px;
     }
 
     .camera-img img{
