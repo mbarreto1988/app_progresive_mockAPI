@@ -26,32 +26,47 @@ html, body {
     margin-top: 0;
 }
 
-.container {
+/* .container {
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
     justify-content: center;
     align-items: center;
     height: auto;
+} */
+
+
+/* _______________________________________________________________________________________________________________________________________________ */
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    padding: 10px;
 }
 
-.card{
-    flex: 1 1 calc(25% - 5px);
-    max-width: calc(25% - 5px);
-    height: 80%;
+.card {
+    flex: 0 1 250px;
+    max-width: 100%;
     text-align: center;
     margin: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: visible; /* importante para no cortar sombras internas */
+    position: relative; /* asegura que el z-index funcione correctamente */
+    z-index: 1; /* mantiene esta tarjeta sobre el nivel del fondo */
 }
 
-.card-img{
+.card-img {
     width: 100%;
-    height: 250px;
+    height: 150px;
     object-fit: cover;
     border-radius: 15px;
 }
 
-.card-data{
-    margin: 10px;
+.card-data {
+    padding: 10px;
     border: 1px solid rgb(98, 98, 243);
     border-radius: 15px;
     background: linear-gradient(90deg, rgb(194, 79, 162) 0%, rgb(222, 178, 251) 94%);
@@ -302,17 +317,20 @@ dialog::backdrop {
     }
 
     .card {
-        flex: 1 1 calc(33.33% - 20px);
-        max-width: calc(33.33% - 20px);
+        flex: 0 1 60%;
     }
 
     .styled-input {
         max-width: 200px;
     }
 
+    .camera-img img{
+        width: 10%;
+    }
+
 }
 
-@media (max-width: 350px) {
+@media (max-width: 400px) {
     .cardDetail {
         font-size: 0.8rem;
         padding: 0.4em 1em;
@@ -320,8 +338,7 @@ dialog::backdrop {
     }
 
     .card {
-        flex: 1 1 calc(50% - 20px);
-        max-width: calc(50% - 20px);
+        flex: 0 1 100%;
     }
 
     .extra-text{
@@ -330,5 +347,9 @@ dialog::backdrop {
 
     .styled-input {
         max-width: 100px;
+    }
+
+    .camera-img img{
+        width: 15%;
     }
 }
