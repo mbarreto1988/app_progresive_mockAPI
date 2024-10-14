@@ -8,9 +8,9 @@
         <link rel="shortcut icon" href="./assets/img/instagram_logo_icon.jpg" type="image/x-icon">
         <link rel="stylesheet" href="./assets/css/style.css">
         <script src="https://kit.fontawesome.com/a214269803.js" crossorigin="anonymous"></script>
-        <script defer src="./assets/js/main.js"></script>
-        <script defer src="./assets/js/post.js"></script>
-        <script defer src="./assets/js/put.js"></script>
+        <script defer type="module" src="./assets/js/main.js"></script>
+        <script defer type="module" src="./assets/js/post.js"></script>
+        <script defer type="module" src="./assets/js/put.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </head>
 
@@ -39,14 +39,6 @@
                         </label>
                         <input type="file" id="input-file" accept="image/*" capture="camera" class="upload-input" required>
                     </div>
-                    <div class="upload-box">
-                        <label for="camera-input" class="upload-label">
-                            <i class="fas fa-camera"></i> Usar Cámara
-                        </label>
-                        <button id="btn-camera" class="activate-camera">Activar Cámara</button>
-                    </div>
-                    <video id="camera-preview" class="img-preview" autoplay></video>
-                    <button id="btn-capture" class="btn-confirm">Capturar Foto</button>
                     <input type="text" id="titulo" placeholder="Ingrese un titulo para su foto" class="styled-input" required>
                     <br>
                     <button id="btn-confirmar" class="btn-confirm">Confirmar</button>

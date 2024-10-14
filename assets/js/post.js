@@ -1,3 +1,6 @@
+import { Alerts } from './alertas.js';
+
+
 const entradaArchivo = document.getElementById('input-file');
 const vistaPrevia = document.getElementById('preview');
 const video = document.getElementById('camera-preview');
@@ -6,23 +9,6 @@ const btnCapture = document.getElementById('btn-capture');
 const btnConfirmar = document.getElementById('btn-confirmar');
 const networkStatus = document.getElementById('network-status');
 const datosIncompletos = document.getElementById('datos-incompletos')
-
-
-let stream;
-let imageCapture;
-
-
-class Alerts {
-    static publicationSuccessful(message) {
-        Swal.fire({
-            icon: 'success',
-            title: '¡Tu foto se ha publicado con éxito!',
-            text: message,
-            timer: 3000,
-            showConfirmButton: false
-        });
-    }
-}
 
 
 function verificarConectividad() {
@@ -36,35 +22,6 @@ function verificarConectividad() {
         btnConfirmar.style.backgroundColor = 'gray';
         btnConfirmar.style.cursor = 'no-drop';
         networkStatus.style.display = 'block';
-    }
-}
-
-
-async function activarCamara() {
-    try {
-        stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        video.srcObject = stream;
-        const track = stream.getVideoTracks()[0];
-        imageCapture = new ImageCapture(track);
-    } catch (error) {
-        console.error('Error al acceder a la cámara:', error);
-        alert('No se pudo acceder a la cámara.');
-    }
-}
-
-
-async function capturarFoto() {
-    try {
-        const photoBlob = await imageCapture.takePhoto();
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            vistaPrevia.src = reader.result;
-            video.srcObject = null;
-            stream.getTracks().forEach(track => track.stop());
-        };
-        reader.readAsDataURL(photoBlob);
-    } catch (error) {
-        console.error('Error al capturar la foto:', error);
     }
 }
 
@@ -152,11 +109,8 @@ async function confirmarSubida() {
 }
 
 
-
 window.addEventListener('online', ()=> verificarConectividad());
 window.addEventListener('offline', ()=> verificarConectividad());
-btnCamera.addEventListener('click', activarCamara);
-btnCapture.addEventListener('click', capturarFoto);
 btnConfirmar.addEventListener('click', confirmarSubida);
 entradaArchivo.addEventListener('change', manejarCambioArchivo);
 

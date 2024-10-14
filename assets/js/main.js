@@ -1,3 +1,6 @@
+import { Alerts } from './alertas.js';
+
+
 const url_base = 'https://6708314d8e86a8d9e42e50e1.mockapi.io/fotos';
 const reel = document.getElementById('reel');
 const dialogCardDetail = document.getElementById('dialogCardDetail');
@@ -74,44 +77,20 @@ async function eliminarImagen(imageId) {
                 method: 'DELETE'
             });
             if (response.ok) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Eliminado',
-                    text: 'La imagen ha sido eliminada con éxito.',
-                    timer: 3000,
-                    showConfirmButton: false
-                });
+                Alerts.deletionSuccessful()
                 setTimeout(() => {
                     window.location.reload(); 
                 }, 3000);
                 dialogCardDetail.close();
             } else {
                 const errorText = await response.text();
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: `Error al eliminar la imagen: ${errorText}`,
-                    timer: 3000,
-                    showConfirmButton: false
-                });
+                Alerts.deletionError(errorText)
             }
         } else {
-            Swal.fire({
-                icon: 'info',
-                title: 'Cancelado',
-                text: 'La imagen no fue eliminada',
-                timer: 2000,
-                showConfirmButton: false
-            });
+            Alerts.deletionCancelled()
         }
     } catch (error) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'No se pudo conectar con el servidor.',
-            timer: 3000,
-            showConfirmButton: false
-        });
+        Alerts.showError(error)
         console.error('Error al eliminar la imagen:', error);
     }
 }
