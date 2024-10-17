@@ -26,18 +26,6 @@ html, body {
     margin-top: 0;
 }
 
-/* .container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    justify-content: center;
-    align-items: center;
-    height: auto;
-} */
-
-
-/* _______________________________________________________________________________________________________________________________________________ */
-
 .container {
     display: flex;
     flex-wrap: wrap;
@@ -53,9 +41,9 @@ html, body {
     margin: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     border-radius: 8px;
-    overflow: visible; /* importante para no cortar sombras internas */
-    position: relative; /* asegura que el z-index funcione correctamente */
-    z-index: 1; /* mantiene esta tarjeta sobre el nivel del fondo */
+    overflow: visible;
+    position: relative;
+    z-index: 1;
 }
 
 .card-img {
@@ -290,7 +278,6 @@ dialog::backdrop {
     text-align: center;
     margin: 0;
 }
-
 
 /* ------------------------------------------------------------------------- */
 
